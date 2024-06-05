@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserType } from './repository/user/user-type.entity';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
+    UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -13,9 +14,9 @@ import { UserType } from './repository/user/user-type.entity';
       username: 'root',
       password: '',
       database: 'eduline',
-      entities:[UserType],
       synchronize: true,
-    })
+      autoLoadEntities: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

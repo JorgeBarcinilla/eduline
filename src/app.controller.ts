@@ -1,6 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { UserType } from './repository/user/user-type.entity';
 
 @Controller()
 export class AppController {
@@ -9,10 +8,5 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
-  }
-
-  @Get()
-  getAllUserTypes(): Promise<UserType[]> {
-    return this.appService.getAllUserTypes();
   }
 }
