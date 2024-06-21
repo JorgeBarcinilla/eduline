@@ -24,4 +24,14 @@ export class UserService {
       relations: ['usertype'],
     });
   }
+
+  async createUser(user: User) {
+    const user_1 = await this.userRepository.save(user);
+    return user_1.id;
+  }
+
+  async updateUser(user: Partial<User>, id: number) {
+    const response = await this.userRepository.update(id, user);
+    return response.affected > 0;
+  }
 }
