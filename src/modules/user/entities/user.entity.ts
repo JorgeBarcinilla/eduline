@@ -23,7 +23,7 @@ export class User {
   email: string;
   @Column({ nullable: true })
   address: string;
-  @Column()
+  @Column({nullable: true})
   birthday: Date;
 
   @ManyToOne(() => UserType, (usertype) => usertype.users)
