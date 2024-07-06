@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { CourseModule } from './modules/course/course.module';
 import { ForumModule } from './modules/forum/forum.module';
 import { UserModule } from './modules/user/user.module';
+import { ForumModule } from './modules/forum/forum.module';
 
 @Module({
   imports: [

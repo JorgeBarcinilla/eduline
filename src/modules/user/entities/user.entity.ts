@@ -4,10 +4,12 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { UserType } from './user-type.entity';
+import { ForumMessage } from 'src/modules/forum/entities/forum-message.entity';
 
 @Entity()
 export class User {
@@ -25,6 +27,9 @@ export class User {
   address: string;
   @Column({nullable: true})
   birthday: Date;
+
+  @OneToMany(() => ForumMessage, forumMessage => forumMessage.user)
+  forumMessages: ForumMessage[];
 
   @ManyToOne(() => UserType, (usertype) => usertype.users)
   @JoinColumn({referencedColumnName: 'id', name: 'usertype'})
