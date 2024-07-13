@@ -5,7 +5,9 @@ import { AppService } from './app.service';
 import { CourseModule } from './modules/course/course.module';
 import { ForumModule } from './modules/forum/forum.module';
 import { UserModule } from './modules/user/user.module';
-import { ForumModule } from './modules/forum/forum.module';
+import { FileModule } from './modules/file/file.module';
+import { TaskModule } from './modules/task/task.module';
+import { EvaluationModule } from './modules/evaluation/evaluation.module';
 
 @Module({
   imports: [
@@ -15,12 +17,15 @@ import { ForumModule } from './modules/forum/forum.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '',
+      password: '123',
       database: 'eduline',
       autoLoadEntities: true,
     }),
     CourseModule,
     ForumModule,
+    FileModule,
+    TaskModule,
+    EvaluationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
