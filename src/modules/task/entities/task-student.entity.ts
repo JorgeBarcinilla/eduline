@@ -1,5 +1,7 @@
 import { File } from "src/modules/file/entities/file.entity";
-import { CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "src/modules/user/entities/user.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Task } from "./task.entity";
 
 @Entity()
 export class TaskStudent{
@@ -11,19 +13,26 @@ export class TaskStudent{
         name: 'file_task_student',
         joinColumn:{
             name: 'taskStudent',
-            foreignKeyConstraintName: 'FK_file_task_student_task_student'
+            foreignKeyConstraintName: 'file_task_student_task_student_id_fk'
         },
         inverseJoinColumn:{
             name: 'file',
-            foreignKeyConstraintName:'FK_file_task_student_file'
+            foreignKeyConstraintName:'file_task_student_file_id_fk'
         }
 
     })
     files:Array<File>
 
-    task: number
+    @ManyToOne(() => Task)
+    @JoinColumn({name: 'task'})
+    task: Task
 
-    teacherCourseStudent: number
+    @ManyToOne(() => User)
+    @JoinColumn({name: 'student'})
+    student: User
+
+    @Column({nullable: true})
+    grade: number | null
 
     @CreateDateColumn()
     createdday: Date
