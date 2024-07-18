@@ -1,6 +1,6 @@
-import { User } from "src/modules/user/entities/user.entity";
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { TeacherCourse } from "./teacher-course.entity";
+import { User } from 'src/modules/user/entities/user.entity';
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { TeacherCourse } from './teacher-course.entity';
 
 @Entity()
 export class TeacherCourseStudent {
@@ -9,9 +9,9 @@ export class TeacherCourseStudent {
 
   @ManyToOne(() => TeacherCourse)
   @JoinColumn({ name: 'teacherCourse' })
-  teacherCourse: TeacherCourse
+  teacherCourse: TeacherCourse;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'student' })
-  student: User
+  student: User;
 }

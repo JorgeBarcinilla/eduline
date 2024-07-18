@@ -1,18 +1,18 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export class Evaluation {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    course: number
+  @Column()
+  course: number;
 
-    @Column()
-    description: string
-    
-    @CreateDateColumn()
-    createdday: Date
+  @Column()
+  description: string;
 
-    @UpdateDateColumn()
-    updatedday: Date
+  @CreateDateColumn()
+  createdday: Date;
+
+  @UpdateDateColumn()
+  updatedday: Date;
 }

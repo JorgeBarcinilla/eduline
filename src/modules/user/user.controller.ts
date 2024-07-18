@@ -17,7 +17,6 @@ export class UserController {
     return this.userService.findAll();
   }
 
-
   @Get('types')
   getTypes() {
     return this.userService.getUserTypes();
@@ -37,5 +36,4 @@ export class UserController {
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
   }
-
 }

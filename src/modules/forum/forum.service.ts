@@ -8,15 +8,12 @@ import { ForumMessage } from './entities/forum-message.entity';
 
 @Injectable()
 export class ForumService {
-
   constructor(
     @InjectRepository(Forum)
     private forumRepository: Repository<Forum>,
     @InjectRepository(ForumMessage)
     private forumMessageRepository: Repository<ForumMessage>
-  ){
-
-  }
+  ) {}
 
   async create(createForumDto: CreateForumDto) {
     const newForum = await this.forumRepository.save(createForumDto);
@@ -28,7 +25,7 @@ export class ForumService {
   }
 
   findOne(id: number) {
-    return this.forumRepository.findOne({where: {id}});
+    return this.forumRepository.findOne({ where: { id } });
   }
 
   update(id: number, updateForumDto: UpdateForumDto) {
@@ -36,10 +33,10 @@ export class ForumService {
   }
 
   remove(id: number) {
-    return this.forumRepository.delete(id)
+    return this.forumRepository.delete(id);
   }
 
   findAllMessages(forumId: number) {
-    return this.forumMessageRepository.find({ where: { forum: { id: forumId }}, relations:['forum']})
+    return this.forumMessageRepository.find({ where: { forum: { id: forumId } }, relations: ['forum'] });
   }
 }

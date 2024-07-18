@@ -1,4 +1,4 @@
-import { PickType } from "@nestjs/mapped-types";
-import { Forum } from "../entities/forum.entity";
+import { PickType } from '@nestjs/mapped-types';
+import { Forum } from '../entities/forum.entity';
 
-export class CreateForumDto extends PickType(Forum, ['name', 'description']){}
+export class CreateForumDto extends PickType(Forum, ['name', 'description']) {}

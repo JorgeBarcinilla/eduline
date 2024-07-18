@@ -1,5 +1,13 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Course } from "./course.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
+import { Course } from './course.entity';
 
 @Entity()
 export class CourseState {
@@ -10,7 +18,7 @@ export class CourseState {
   name: string;
 
   @OneToMany(() => Course, (course) => course.state)
-  @JoinColumn({referencedColumnName: 'id', name: 'state'})
+  @JoinColumn({ referencedColumnName: 'id', name: 'state' })
   courses: Course[];
 
   @CreateDateColumn()

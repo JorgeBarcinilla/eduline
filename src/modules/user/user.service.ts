@@ -8,12 +8,11 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-
   constructor(
     @InjectRepository(UserType)
     private userTypeRepository: Repository<UserType>,
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepository: Repository<User>
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -23,12 +22,12 @@ export class UserService {
 
   findAll() {
     return this.userRepository.find({
-      relations: ['usertype'],
+      relations: ['usertype']
     });
   }
 
   findOne(id: number) {
-    return this.userRepository.findOne({where: {id}})
+    return this.userRepository.findOne({ where: { id } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -43,7 +42,7 @@ export class UserService {
 
   getUserTypes() {
     return this.userTypeRepository.find({
-      relations: ['users'],
+      relations: ['users']
     });
   }
 }

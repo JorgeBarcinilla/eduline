@@ -8,7 +8,6 @@ import { Task } from './entities/task.entity';
 
 @Injectable()
 export class TaskService {
-
   constructor(
     @InjectRepository(Task)
     private taskRepository: Repository<Task>,
@@ -22,7 +21,7 @@ export class TaskService {
 
   findAll() {
     return this.taskRepository.find({
-      relations:{
+      relations: {
         teacherCourse: {
           teacher: true,
           course: true
@@ -32,11 +31,9 @@ export class TaskService {
           student: {
             teacherCourses: true
           }
-
         }
       }
-    }
-  );
+    });
   }
 
   findOne(id: number) {

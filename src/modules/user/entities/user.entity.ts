@@ -1,23 +1,11 @@
+import { CommonEntity } from 'src/common/entity/common.entity';
 import { TeacherCourse } from 'src/modules/course/entities/teacher-course.entity';
 import { ForumMessage } from 'src/modules/forum/entities/forum-message.entity';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { UserType } from './user-type.entity';
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class User extends CommonEntity {
   @Column()
   name: string;
   @Column()
@@ -28,14 +16,14 @@ export class User {
   email: string;
   @Column({ nullable: true })
   address: string;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   birthday: Date;
 
-  @OneToMany(() => ForumMessage, forumMessage => forumMessage.user)
+  @OneToMany(() => ForumMessage, (forumMessage) => forumMessage.user)
   forumMessages: ForumMessage[];
 
   @ManyToOne(() => UserType, (usertype) => usertype.users)
-  @JoinColumn({referencedColumnName: 'id', name: 'usertype'})
+  @JoinColumn({ referencedColumnName: 'id', name: 'usertype' })
   usertype: UserType;
 
   @ManyToMany(() => TeacherCourse)
@@ -43,18 +31,12 @@ export class User {
     name: 'teacher_course_student',
     joinColumn: {
       name: 'student',
-      referencedColumnName: 'id',
+      referencedColumnName: 'id'
     },
     inverseJoinColumn: {
       name: 'teacherCourse',
-      referencedColumnName: 'id',
-    },
-
+      referencedColumnName: 'id'
+    }
   })
   teacherCourses: TeacherCourse[];
-
-  @CreateDateColumn()
-  createdday: Date;
-  @UpdateDateColumn()
-  updatedday: Date;
 }
