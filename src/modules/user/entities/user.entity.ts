@@ -8,14 +8,19 @@ import { UserType } from './user-type.entity';
 export class User extends CommonEntity {
   @Column()
   name: string;
+
   @Column()
   lastName: string;
+
   @Column()
   password: string;
+
   @Column({ unique: true })
   email: string;
+
   @Column({ nullable: true })
   address: string;
+
   @Column({ nullable: true })
   birthday: Date;
 

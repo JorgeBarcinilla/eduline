@@ -8,6 +8,7 @@ import { FileModule } from './modules/file/file.module';
 import { ForumModule } from './modules/forum/forum.module';
 import { TaskModule } from './modules/task/task.module';
 import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { UserModule } from './modules/user/user.module';
     ForumModule,
     FileModule,
     TaskModule,
-    EvaluationModule
+    EvaluationModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService]

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { UserType } from './entities/user-type.entity';
 import { User } from './entities/user.entity';
 
@@ -26,8 +26,12 @@ export class UserService {
     });
   }
 
-  findOne(id: number) {
-    return this.userRepository.findOne({ where: { id } });
+  findOne(where: FindOptionsWhere<User> | FindOptionsWhere<User>[]) {
+    return this.userRepository.findOne({ where });
+  }
+
+  findOneEmail(email: string) {
+    return this.userRepository.findOne({ where: { email } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
