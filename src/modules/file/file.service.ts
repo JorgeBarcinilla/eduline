@@ -1,25 +1,46 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFileDto } from './dto/create-file.dto';
-import { UpdateFileDto } from './dto/update-file.dto';
 
+/**
+ *
+ */
 @Injectable()
 export class FileService {
-  create(createFileDto: CreateFileDto) {
+  /**
+   *
+   * @param createFileDto
+   */
+  create() {
     return 'This action adds a new file';
   }
 
+  /**
+   *
+   */
   findAll() {
     return `This action returns all file`;
   }
 
+  /**
+   *
+   * @param id
+   */
   findOne(id: number) {
     return `This action returns a #${id} file`;
   }
 
-  update(id: number, updateFileDto: UpdateFileDto) {
+  /**
+   *
+   * @param id
+   * @param updateFileDto
+   */
+  update(id: number) {
     return `This action updates a #${id} file`;
   }
 
+  /**
+   *
+   * @param id
+   */
   remove(id: number) {
     return `This action removes a #${id} file`;
   }

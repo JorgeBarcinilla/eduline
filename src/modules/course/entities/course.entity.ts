@@ -5,10 +5,13 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { CourseState } from './course-state.entity';
 
+/**
+ *
+ */
 @Entity()
 export class Course {
   @PrimaryGeneratedColumn()

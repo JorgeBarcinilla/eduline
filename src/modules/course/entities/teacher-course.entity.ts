@@ -8,10 +8,13 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { Course } from './course.entity';
 
+/**
+ *
+ */
 @Entity()
 export class TeacherCourse {
   @PrimaryGeneratedColumn()
@@ -31,13 +34,13 @@ export class TeacherCourse {
     joinColumn: {
       name: 'teacherCourse',
       referencedColumnName: 'id',
-      foreignKeyConstraintName: 'teacher_course_student_ibfk_1'
+      foreignKeyConstraintName: 'teacher_course_student_ibfk_1',
     },
     inverseJoinColumn: {
       name: 'student',
       referencedColumnName: 'id',
-      foreignKeyConstraintName: 'teacher_course_student_ibfk_2'
-    }
+      foreignKeyConstraintName: 'teacher_course_student_ibfk_2',
+    },
   })
   students: User[];
 

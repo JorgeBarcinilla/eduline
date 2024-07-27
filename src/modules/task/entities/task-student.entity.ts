@@ -9,10 +9,13 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { Task } from './task.entity';
 
+/**
+ *
+ */
 @Entity()
 export class TaskStudent {
   @PrimaryGeneratedColumn()
@@ -23,12 +26,12 @@ export class TaskStudent {
     name: 'file_task_student',
     joinColumn: {
       name: 'taskStudent',
-      foreignKeyConstraintName: 'file_task_student_task_student_id_fk'
+      foreignKeyConstraintName: 'file_task_student_task_student_id_fk',
     },
     inverseJoinColumn: {
       name: 'file',
-      foreignKeyConstraintName: 'file_task_student_file_id_fk'
-    }
+      foreignKeyConstraintName: 'file_task_student_file_id_fk',
+    },
   })
   files: Array<File>;
 

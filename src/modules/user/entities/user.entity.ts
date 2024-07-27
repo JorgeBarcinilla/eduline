@@ -2,9 +2,20 @@ import { Exclude } from 'class-transformer';
 import { CommonEntity } from 'src/common/entity/common.entity';
 import { TeacherCourse } from 'src/modules/course/entities/teacher-course.entity';
 import { ForumMessage } from 'src/modules/forum/entities/forum-message.entity';
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { UserType } from './user-type.entity';
 
+/**
+ *
+ */
 @Entity()
 export class User extends CommonEntity {
   @Column()
@@ -38,12 +49,12 @@ export class User extends CommonEntity {
     name: 'teacher_course_student',
     joinColumn: {
       name: 'student',
-      referencedColumnName: 'id'
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
       name: 'teacherCourse',
-      referencedColumnName: 'id'
-    }
+      referencedColumnName: 'id',
+    },
   })
   teacherCourses: TeacherCourse[];
 }

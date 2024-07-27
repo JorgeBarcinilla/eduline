@@ -5,10 +5,13 @@ import {
   JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
+/**
+ *
+ */
 @Entity()
 export class UserType {
   @PrimaryGeneratedColumn()

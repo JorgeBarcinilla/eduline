@@ -1,25 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEvaluationDto } from './dto/create-evaluation.dto';
-import { UpdateEvaluationDto } from './dto/update-evaluation.dto';
-
+/**
+ *
+ */
 @Injectable()
 export class EvaluationService {
-  create(createEvaluationDto: CreateEvaluationDto) {
+  /**
+   *
+   * @param createEvaluationDto
+   */
+  create() {
     return 'This action adds a new evaluation';
   }
 
+  /**
+   *
+   */
   findAll() {
     return `This action returns all evaluation`;
   }
 
+  /**
+   *
+   * @param id
+   */
   findOne(id: number) {
     return `This action returns a #${id} evaluation`;
   }
 
-  update(id: number, updateEvaluationDto: UpdateEvaluationDto) {
+  /**
+   *
+   * @param id
+   * @param updateEvaluationDto
+   */
+  update(id: number) {
     return `This action updates a #${id} evaluation`;
   }
 
+  /**
+   *
+   * @param id
+   */
   remove(id: number) {
     return `This action removes a #${id} evaluation`;
   }

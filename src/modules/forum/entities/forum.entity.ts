@@ -1,6 +1,16 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ForumMessage } from './forum-message.entity';
 
+/**
+ *
+ */
 @Entity()
 export class Forum {
   @PrimaryGeneratedColumn()
@@ -10,7 +20,7 @@ export class Forum {
   name: string;
 
   @Column({
-    nullable: true
+    nullable: true,
   })
   description: string | null;
 

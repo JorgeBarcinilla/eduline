@@ -1,5 +1,13 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
+/**
+ *
+ */
 export class Evaluation {
   @PrimaryGeneratedColumn()
   id: number;

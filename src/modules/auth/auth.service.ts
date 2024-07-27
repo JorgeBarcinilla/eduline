@@ -5,13 +5,23 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 import { UserService } from '../user/user.service';
 import { LoginDto, LoginResponseDto } from './dto/login.dto';
 
+/**
+ *
+ */
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
+  /**
+   * Metodo para realizar el inicio de sesión
+   * @param {LoginDto} root0 - Datos de inicio de sesión.
+   * @param {string} root0.email - Email del usuario
+   * @param {string} root0.password - Contraseña del usuario
+   * @returns {Promise<LoginResponseDto>} - Datos y token del usuario
+   */
   async login({ email, password }: LoginDto): Promise<LoginResponseDto> {
     const user = await this.userService.findOne({ email });
     const payload = { email: user.email, sub: user.id };
@@ -22,6 +32,10 @@ export class AuthService {
     throw new UnauthorizedException();
   }
 
+  /**
+   *
+   * @param createUser
+   */
   async register(createUser: CreateUserDto) {
     const hashPassword = await bcrypt.hash(createUser.password, 10);
     createUser = { ...createUser, password: hashPassword };

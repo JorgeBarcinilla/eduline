@@ -10,6 +10,9 @@ import { ForumModule } from './modules/forum/forum.module';
 import { TaskModule } from './modules/task/task.module';
 import { UserModule } from './modules/user/user.module';
 
+/**
+ *
+ */
 @Module({
   imports: [
     UserModule,
@@ -18,18 +21,18 @@ import { UserModule } from './modules/user/user.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '',
+      password: '123',
       database: 'eduline',
-      autoLoadEntities: true
+      autoLoadEntities: true,
     }),
     CourseModule,
     ForumModule,
     FileModule,
     TaskModule,
     EvaluationModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
 })
 export class AppModule {}
