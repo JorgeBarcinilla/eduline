@@ -1,15 +1,15 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { EvaluationService } from './evaluation.service';
 import { CreateEvaluationDto } from './dto/create-evaluation.dto';
 import { UpdateEvaluationDto } from './dto/update-evaluation.dto';
+import { EvaluationService } from './evaluation.service';
 
 /**
  *
@@ -24,7 +24,7 @@ export class EvaluationController {
    */
   @Post()
   create(@Body() createEvaluationDto: CreateEvaluationDto) {
-    return this.evaluationService.create(createEvaluationDto);
+    return this.evaluationService.create();
   }
 
   /**
@@ -54,7 +54,7 @@ export class EvaluationController {
     @Param('id') id: string,
     @Body() updateEvaluationDto: UpdateEvaluationDto,
   ) {
-    return this.evaluationService.update(+id, updateEvaluationDto);
+    return this.evaluationService.update(+id);
   }
 
   /**

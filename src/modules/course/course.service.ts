@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseState } from './entities/course-state.entity';
@@ -31,9 +31,10 @@ export class CourseService {
 
   /**
    *
+   * @param where
    */
-  findAll() {
-    return this.courseRepository.find({ relations: ['state'] });
+  findAll(where?: FindOptionsWhere<Course> | FindOptionsWhere<Course>[]) {
+    return this.courseRepository.find({ where, relations: ['state'] });
   }
 
   /**
@@ -70,9 +71,13 @@ export class CourseService {
 
   /**
    *
+   * @param where
    */
-  findTeacherCourses() {
+  findTeacherCourses(
+    where?: FindOptionsWhere<TeacherCourse> | FindOptionsWhere<TeacherCourse>[],
+  ) {
     return this.teacherCourseRepository.find({
+      where,
       relations: ['course', 'teacher', 'students'],
     });
   }

@@ -1,15 +1,15 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { FileService } from './file.service';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
+import { FileService } from './file.service';
 
 /**
  *
@@ -24,7 +24,7 @@ export class FileController {
    */
   @Post()
   create(@Body() createFileDto: CreateFileDto) {
-    return this.fileService.create(createFileDto);
+    return this.fileService.create();
   }
 
   /**
@@ -51,7 +51,7 @@ export class FileController {
    */
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFileDto: UpdateFileDto) {
-    return this.fileService.update(+id, updateFileDto);
+    return this.fileService.update(+id);
   }
 
   /**

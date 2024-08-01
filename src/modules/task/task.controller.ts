@@ -24,7 +24,7 @@ export class TaskController {
    */
   @Post()
   create(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
+    return this.taskService.create();
   }
 
   /**
@@ -51,7 +51,7 @@ export class TaskController {
    */
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(+id, updateTaskDto);
+    return this.taskService.update(+id);
   }
 
   /**

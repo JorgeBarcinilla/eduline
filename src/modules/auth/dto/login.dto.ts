@@ -13,3 +13,11 @@ export class LoginResponseDto {
   user: User;
   token: string;
 }
+
+/**
+ *
+ */
+export class AuthTokenPayload {
+  id: number;
+  email: string;
+}
