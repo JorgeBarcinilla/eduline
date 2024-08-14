@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
-    const token = this.extractTokenFromHeader(request);
+    const token = request.cookies?.token;
     if (!token) throw new UnauthorizedException();
     try {
       const payload = this.jWtService.verify(token, {

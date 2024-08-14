@@ -24,21 +24,25 @@ export class AuthService {
    */
   async login({ email, password }: LoginDto): Promise<LoginResponseDto> {
     const user = await this.userService.findOne({ email });
-    const payload: AuthTokenPayload = { email: user.email, id: user.id };
-    const token = await this.jwtService.signAsync(payload);
-    if (await bcrypt.compare(password, user.password)) {
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const payload: AuthTokenPayload = { email: user.email, id: user.id };
+      const token = await this.jwtService.signAsync(payload);
       return { user, token };
     }
     throw new UnauthorizedException();
   }
 
   /**
-   *
-   * @param createUser
+   * Metodo para registrar un usuario
+   * @param {CreateUserDto} createUser - Datos del usuario a registrar
+   * @returns {Promise<LoginResponseDto>} - Datos del usuario registrado
    */
   async register(createUser: CreateUserDto) {
-    const hashPassword = await bcrypt.hash(createUser.password, 10);
+    const decryptPassword = createUser.password;
+    const hashPassword = await bcrypt.hash(decryptPassword, 10);
     createUser = { ...createUser, password: hashPassword };
-    return this.userService.create(createUser);
+    return this.userService.create(createUser).then(() => {
+      return this.login({ email: createUser.email, password: decryptPassword });
+    });
   }
 }

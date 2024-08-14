@@ -5,9 +5,10 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
+import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
+import { LoginDto, LoginResponseDto } from './dto/login.dto';
 
 /**
  *
@@ -17,21 +18,26 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   /**
-   *
-   * @param loginDto
+   * Metodo para loguear un usuario
+   * @param {LoginDto} loginDto - Datos del usuario a loguear
+   * @returns {Promise<LoginResponseDto>} - Datos del usuario logeado
    */
   @Post('login')
   @UseInterceptors(ClassSerializerInterceptor)
-  login(@Body() loginDto: LoginDto) {
+  @UseInterceptors(AuthInterceptor)
+  login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
     return this.authService.login(loginDto);
   }
 
   /**
-   *
-   * @param createUserDto
+   * Metodo para registrar un usuario
+   * @param {CreateUserDto} createUserDto - Datos del usuario a registrar
+   * @returns {Promise<LoginResponseDto>} - Datos del usuario registrado
    */
   @Post('register')
-  register(@Body() createUserDto: CreateUserDto) {
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseInterceptors(AuthInterceptor)
+  register(@Body() createUserDto: CreateUserDto): Promise<LoginResponseDto> {
     return this.authService.register(createUserDto);
   }
 }
