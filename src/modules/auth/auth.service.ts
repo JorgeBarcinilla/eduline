@@ -1,9 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
-import { AuthTokenPayload, LoginDto, LoginResponseDto } from './dto/login.dto';
+import { AuthTokenPayload, LoginResponseDto } from './dto/login.dto';
 
 /**
  *
@@ -17,32 +18,38 @@ export class AuthService {
 
   /**
    * Metodo para realizar el inicio de sesión
-   * @param {LoginDto} root0 - Datos de inicio de sesión.
-   * @param {string} root0.email - Email del usuario
-   * @param {string} root0.password - Contraseña del usuario
+   * @param {User} user - Datos del usuario
    * @returns {Promise<LoginResponseDto>} - Datos y token del usuario
    */
-  async login({ email, password }: LoginDto): Promise<LoginResponseDto> {
-    const user = await this.userService.findOne({ email });
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const payload: AuthTokenPayload = { email: user.email, id: user.id };
-      const token = await this.jwtService.signAsync(payload);
-      return { user, token };
-    }
-    throw new UnauthorizedException();
+  async login(user: User): Promise<LoginResponseDto> {
+    const payload: AuthTokenPayload = { email: user.email, id: user.id };
+    const token = await this.jwtService.signAsync(payload);
+    return { user, token };
   }
 
   /**
    * Metodo para registrar un usuario
    * @param {CreateUserDto} createUser - Datos del usuario a registrar
-   * @returns {Promise<LoginResponseDto>} - Datos del usuario registrado
+   * @returns {Promise<number>} - Id del usuario
    */
-  async register(createUser: CreateUserDto) {
+  async register(createUser: CreateUserDto): Promise<number> {
     const decryptPassword = createUser.password;
     const hashPassword = await bcrypt.hash(decryptPassword, 10);
     createUser = { ...createUser, password: hashPassword };
-    return this.userService.create(createUser).then(() => {
-      return this.login({ email: createUser.email, password: decryptPassword });
-    });
+    return this.userService.create(createUser);
+  }
+
+  /**
+   * Metodo para validar un usuario
+   * @param {string} email - Email del usuario
+   * @param {string} password - Contraseña del usuario
+   * @returns {Promise<User | null>} - Usuario
+   */
+  async validateUser(email: string, password: string): Promise<User | null> {
+    const user = await this.userService.findOne({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      return user;
+    }
+    return null;
   }
 }

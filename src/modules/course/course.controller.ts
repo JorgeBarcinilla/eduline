@@ -9,8 +9,8 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { AuthTokenPayload } from '../auth/dto/login.dto';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { User } from '../user/entities/user.entity';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
@@ -40,7 +40,7 @@ export class CourseController {
    * @returns {Promise<Course[]>} - Cursos encontrados
    */
   @Get('getAll')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   findAll(): Promise<Course[]> {
     return this.courseService.findAll();
   }
@@ -56,15 +56,15 @@ export class CourseController {
 
   /**
    * Endpoint para obtener los cursos de un estudiante
-   * @param request - Request de la petición
+   * @param {Request} request - Request de la petición
    * @returns {Promise<TeacherCourse[]>} - Cursos del estudiante
    */
   @Get('getMyCourses')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   getMyCourses(@Request() request: Request): Promise<TeacherCourse[]> {
-    const payload = request['payload'] as AuthTokenPayload;
+    const user = request['user'] as User;
     return this.courseService.findTeacherCourses({
-      students: { id: payload.id },
+      students: { id: user.id },
     });
   }
 
