@@ -23,16 +23,16 @@ import { UserModule } from './modules/user/user.module';
       username: 'root',
       password: '',
       database: 'eduline',
-      autoLoadEntities: true,
+      autoLoadEntities: true
     }),
     CourseModule,
     ForumModule,
     FileModule,
     TaskModule,
     EvaluationModule,
-    AuthModule,
+    AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

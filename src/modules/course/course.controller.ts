@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { User } from '../user/entities/user.entity';
 import { CourseService } from './course.service';
@@ -64,7 +54,7 @@ export class CourseController {
   getMyCourses(@Request() request: Request): Promise<TeacherCourse[]> {
     const user = request['user'] as User;
     return this.courseService.findTeacherCourses({
-      students: { id: user.id },
+      students: { id: user.id }
     });
   }
 
@@ -94,10 +84,7 @@ export class CourseController {
    * @returns {Promise<boolean>} - Resultado de la actualización
    */
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCourseDto: UpdateCourseDto,
-  ): Promise<boolean> {
+  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto): Promise<boolean> {
     return this.courseService.update(+id, updateCourseDto);
   }
 

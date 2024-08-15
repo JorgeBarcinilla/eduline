@@ -1,9 +1,4 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 import { LoginResponseDto } from 'src/modules/auth/dto/login.dto';
 import { User } from 'src/modules/user/entities/user.entity';
@@ -19,18 +14,15 @@ export class AuthInterceptor implements NestInterceptor {
    * @param {CallHandler} next - Siguiente manejador
    * @returns {Observable<any>} - Respuesta de la petición
    */
-  intercept(
-    context: ExecutionContext,
-    next: CallHandler<LoginResponseDto>,
-  ): Observable<User> {
+  intercept(context: ExecutionContext, next: CallHandler<LoginResponseDto>): Observable<User> {
     return next.handle().pipe(
       map(({ user, token }) => {
         const response = context.switchToHttp().getResponse();
         if (token) {
-          response.cookie('token', token, { httpOnly: true });
+          response.cookie('token', token, {});
         }
         return user;
-      }),
+      })
     );
   }
 }
