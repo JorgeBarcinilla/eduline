@@ -11,6 +11,6 @@ import { ForumMessage } from './entities/forum-message.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Forum, ForumMessage])],
   controllers: [ForumController],
-  providers: [ForumService],
+  providers: [ForumService]
 })
 export class ForumModule {}

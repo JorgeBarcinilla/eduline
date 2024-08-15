@@ -1,14 +1,8 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserType } from './entities/user-type.entity';
+import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
 /**
@@ -19,55 +13,61 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   /**
-   *
-   * @param createUserDto
+   * Endpoint para crear un nuevo usuario
+   * @param {CreateUserDto} createUserDto - Objeto con los datos del usuario
+   * @returns {Promise<number>} - Id del usuario creado
    */
   @Post('create')
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserDto): Promise<number> {
     return this.userService.create(createUserDto);
   }
 
   /**
-   *
+   * Endpoint para obtener todos los usuarios
+   * @returns {Promise<User[]>} - Lista de usuarios
    */
   @Get('getAll')
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
   /**
-   *
+   * Endpoint para obtener los tipos de usuario
+   * @returns {Promise<UserType[]>} - Lista de tipos de usuario
    */
   @Get('types')
-  getTypes() {
+  getTypes(): Promise<UserType[]> {
     return this.userService.getUserTypes();
   }
 
   /**
-   *
-   * @param id
+   * Endpoint para obtener un usuario
+   * @param {string} id - Id del usuario
+   * @returns {Promise<User>} - Usuario encontrado
    */
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne({ id: +id });
   }
 
   /**
-   *
-   * @param id
-   * @param updateUserDto
+   * Endpoint para actualizar un usuario
+   * @param {string} id - Id del usuario
+   * @param {UpdateUserDto} updateUserDto - Objeto con los datos del usuario
+   * @returns {Promise<boolean>} - Resultado de la actualización
    */
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<boolean> {
     return this.userService.update(+id, updateUserDto);
   }
 
   /**
-   *
-   * @param id
+   * Endpoint para eliminar un usuario
+   * @param {string} id - Id del usuario
+   * @returns {Promise<boolean>} - Resultado de la eliminación
    */
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<boolean> {
     return this.userService.remove(+id);
   }
 }

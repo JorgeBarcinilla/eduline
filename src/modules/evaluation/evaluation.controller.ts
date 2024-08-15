@@ -1,14 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateEvaluationDto } from './dto/create-evaluation.dto';
 import { UpdateEvaluationDto } from './dto/update-evaluation.dto';
+import { Evaluation } from './entities/evaluation.entity';
 import { EvaluationService } from './evaluation.service';
 
 /**
@@ -19,50 +12,52 @@ export class EvaluationController {
   constructor(private readonly evaluationService: EvaluationService) {}
 
   /**
-   *
-   * @param createEvaluationDto
+   * Endpoint para crear una evaluación
+   * @param {CreateEvaluationDto} createEvaluationDto - Datos de la evaluación a crear
+   * @returns {Promise<number>} - Id de la evaluación creada
    */
   @Post()
-  create(@Body() createEvaluationDto: CreateEvaluationDto) {
-    return this.evaluationService.create();
+  create(@Body() createEvaluationDto: CreateEvaluationDto): Promise<number> {
+    return this.evaluationService.create(createEvaluationDto);
   }
 
   /**
-   *
+   * Endpoint para obtener todas las evaluaciones
+   * @returns {Promise<Evaluation[]>} - Evaluaciones encontradas
    */
   @Get()
-  findAll() {
+  findAll(): Promise<Evaluation[]> {
     return this.evaluationService.findAll();
   }
 
   /**
-   *
-   * @param id
+   * Endpoint para obtener una evaluación
+   * @param {string} id - Id de la evaluación a buscar
+   * @returns {Promise<Evaluation>} - Evaluación encontrada
    */
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.evaluationService.findOne(+id);
+  findOne(@Param('id') id: string): Promise<Evaluation> {
+    return this.evaluationService.findOne({ id: +id });
   }
 
   /**
-   *
-   * @param id
-   * @param updateEvaluationDto
+   * Endpoint para actualizar una evaluación
+   * @param {string} id - Id de la evaluación a actualizar
+   * @param {UpdateEvaluationDto} updateEvaluationDto - Datos de la evaluación a actualizar
+   * @returns {Promise<boolean>} - Resultado de la actualización
    */
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateEvaluationDto: UpdateEvaluationDto,
-  ) {
-    return this.evaluationService.update(+id);
+  update(@Param('id') id: string, @Body() updateEvaluationDto: UpdateEvaluationDto): Promise<boolean> {
+    return this.evaluationService.update(+id, updateEvaluationDto);
   }
 
   /**
-   *
-   * @param id
+   * Endpoint para eliminar una evaluación
+   * @param {string} id - Id de la evaluación a eliminar
+   * @returns {Promise<boolean>} - Resultado de la eliminación
    */
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<boolean> {
     return this.evaluationService.remove(+id);
   }
 }

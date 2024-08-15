@@ -13,7 +13,7 @@ import { AuthTokenPayload, LoginResponseDto } from './dto/login.dto';
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   /**

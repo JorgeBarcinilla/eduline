@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskStudent } from './entities/task-student.entity';
 import { Task } from './entities/task.entity';
 
@@ -13,59 +15,67 @@ export class TaskService {
     @InjectRepository(Task)
     private taskRepository: Repository<Task>,
     @InjectRepository(TaskStudent)
-    private taskStudentRepository: Repository<TaskStudent>,
+    private taskStudentRepository: Repository<TaskStudent>
   ) {}
 
   /**
-   *
-   * @param createTaskDto
+   * Metodo para crear una nueva tarea
+   * @param {CreateTaskDto} createTaskDto - Objeto con los datos de la tarea
+   * @returns {Promise<number>} - Id de la tarea creada
    */
-  create() {
-    return 'This action adds a new task';
+  async create(createTaskDto: CreateTaskDto): Promise<number> {
+    const result = await this.taskRepository.insert(createTaskDto);
+    return result.identifiers[0].id;
   }
 
   /**
-   *
+   * Metodo para obtener todas las tareas
+   * @returns {Promise<Task[]>} - Lista de tareas
    */
-  findAll() {
+  findAll(): Promise<Task[]> {
     return this.taskRepository.find({
       relations: {
         teacherCourse: {
           teacher: true,
-          course: true,
+          course: true
         },
         answers: {
           files: true,
           student: {
-            teacherCourses: true,
-          },
-        },
-      },
+            teacherCourses: true
+          }
+        }
+      }
     });
   }
 
   /**
-   *
-   * @param id
+   * Metodo para obtener una tarea
+   * @param {FindOptionsWhere<Task> | FindOptionsWhere<Task>[]} where - Parametros de busqueda
+   * @returns {Promise<Task>} - Tarea encontrada
    */
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
+  findOne(where: FindOptionsWhere<Task> | FindOptionsWhere<Task>[]): Promise<Task> {
+    return this.taskRepository.findOne({ where });
   }
 
   /**
-   *
-   * @param id
-   * @param updateTaskDto
+   * Metodo para actualizar una tarea
+   * @param {number} id - Id de la tarea
+   * @param {UpdateTaskDto} updateTaskDto - Objeto con los datos de la tarea
+   * @returns {Promise<boolean>} - Resultado de la actualización
    */
-  update(id: number) {
-    return `This action updates a #${id} task`;
+  async update(id: number, updateTaskDto: UpdateTaskDto): Promise<boolean> {
+    const result = await this.taskRepository.update(id, updateTaskDto);
+    return result.affected > 0;
   }
 
   /**
-   *
-   * @param id
+   * Metodo para eliminar una tarea
+   * @param {number} id - Id de la tarea
+   * @returns {Promise<boolean>} - Resultado de la eliminación
    */
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  async remove(id: number): Promise<boolean> {
+    const result = await this.taskRepository.delete(id);
+    return result.affected > 0;
   }
 }

@@ -5,7 +5,7 @@ import {
   Post,
   Request,
   UseGuards,
-  UseInterceptors,
+  UseInterceptors
 } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/guards/local-auth.guard';
 import { AuthInterceptor } from 'src/interceptors/auth.interceptor';

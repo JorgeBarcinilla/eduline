@@ -4,7 +4,4 @@ import { Course } from '../entities/course.entity';
 /**
  *
  */
-export class CreateCourseDto extends OmitType(Course, [
-  'createdday',
-  'updateday',
-]) {}
+export class CreateCourseDto extends OmitType(Course, ['createdday', 'updateday']) {}

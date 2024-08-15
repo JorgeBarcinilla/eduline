@@ -6,7 +6,7 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 
 /**
@@ -34,12 +34,12 @@ export class File {
     name: 'file_task_student',
     joinColumn: {
       name: 'file',
-      foreignKeyConstraintName: 'file_task_student_file_id_fk',
+      foreignKeyConstraintName: 'file_task_student_file_id_fk'
     },
     inverseJoinColumn: {
       name: 'taskStudent',
-      foreignKeyConstraintName: 'file_task_student_task_student_id_fk',
-    },
+      foreignKeyConstraintName: 'file_task_student_task_student_id_fk'
+    }
   })
   taskStudents: Array<TaskStudent>;
 

@@ -15,68 +15,66 @@ export class UserService {
     @InjectRepository(UserType)
     private userTypeRepository: Repository<UserType>,
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepository: Repository<User>
   ) {}
 
   /**
-   *
-   * @param createUserDto
+   * Metodo para crear un nuevo usuario
+   * @param {CreateUserDto} createUserDto - Objeto con los datos del usuario
+   * @returns {Promise<number>} - Id del usuario creado
    */
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<number> {
     const user = await this.userRepository.save(createUserDto);
     return user.id;
   }
 
   /**
-   *
+   * Metodo para obtener todos los usuarios
+   * @returns {Promise<User[]>} - Lista de usuarios
    */
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.userRepository.find({
-      relations: ['usertype'],
+      relations: ['usertype']
     });
   }
 
   /**
-   *
-   * @param where
+   * Metodo para obtener un usuario
+   * @param {FindOptionsWhere<User> | FindOptionsWhere<User>[]} where - Parametros de busqueda
+   * @returns {Promise<User>} - Usuario encontrado
    */
-  findOne(where: FindOptionsWhere<User> | FindOptionsWhere<User>[]) {
+  findOne(where: FindOptionsWhere<User> | FindOptionsWhere<User>[]): Promise<User> {
     return this.userRepository.findOne({ where });
   }
 
   /**
-   *
-   * @param email
+   * Metodo para actualizar un usuario
+   * @param {number} id - Id del usuario
+   * @param {UpdateUserDto} updateUserDto - Objeto con los datos del usuario
+   * @returns {Promise<boolean>} - Resultado de la actualización
    */
-  findOneEmail(email: string) {
-    return this.userRepository.findOne({ where: { email } });
-  }
-
-  /**
-   *
-   * @param id
-   * @param updateUserDto
-   */
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<boolean> {
     const response = await this.userRepository.update(id, updateUserDto);
     return response.affected > 0;
   }
 
   /**
-   *
-   * @param id
+   * Metodo para eliminar un usuario
+   * @param {number} id - Id del usuario
+   * @returns {Promise<boolean>} - Resultado de la eliminación
    */
-  async remove(id: number) {
+  async remove(id: number): Promise<boolean> {
     const response = await this.userRepository.delete(id);
     return response.affected > 0;
   }
 
   /**
-   *
+   * Metodo para obtener los tipos de usuario
+   * @returns {Promise<UserType[]>} - Lista de tipos de usuario
    */
-  getUserTypes() {
+  getUserTypes(): Promise<UserType[]> {
     return this.userTypeRepository.find({
-      relations: ['users'],
+      relations: ['users']
     });
   }
 }

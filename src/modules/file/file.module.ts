@@ -10,6 +10,6 @@ import { FileService } from './file.service';
 @Module({
   imports: [TypeOrmModule.forFeature([File])],
   controllers: [FileController],
-  providers: [FileService],
+  providers: [FileService]
 })
 export class FileModule {}

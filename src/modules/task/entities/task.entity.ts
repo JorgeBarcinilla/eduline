@@ -1,19 +1,13 @@
+import { CommonEntity } from 'src/common/entity/common.entity';
 import { TeacherCourse } from 'src/modules/course/entities/teacher-course.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { TaskStudent } from './task-student.entity';
 
 /**
  *
  */
 @Entity()
-export class Task {
+export class Task extends CommonEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

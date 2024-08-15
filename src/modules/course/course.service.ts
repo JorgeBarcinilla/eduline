@@ -18,7 +18,7 @@ export class CourseService {
     @InjectRepository(CourseState)
     private courseStateRepository: Repository<CourseState>,
     @InjectRepository(TeacherCourse)
-    private teacherCourseRepository: Repository<TeacherCourse>,
+    private teacherCourseRepository: Repository<TeacherCourse>
   ) {}
 
   /**
@@ -35,9 +35,7 @@ export class CourseService {
    * @param {FindOptionsWhere<Course> | FindOptionsWhere<Course>[]} where - Condiciones de busqueda
    * @returns {Promise<Course[]>} - Cursos encontrados
    */
-  findAll(
-    where?: FindOptionsWhere<Course> | FindOptionsWhere<Course>[],
-  ): Promise<Course[]> {
+  findAll(where?: FindOptionsWhere<Course> | FindOptionsWhere<Course>[]): Promise<Course[]> {
     return this.courseRepository.find({ where, relations: ['state'] });
   }
 
@@ -57,9 +55,7 @@ export class CourseService {
    * @returns {Promise<boolean>} - Resultado de la actualización
    */
   update(id: number, updateCourseDto: UpdateCourseDto): Promise<boolean> {
-    return this.courseRepository
-      .update(id, updateCourseDto)
-      .then((result: UpdateResult) => result.affected > 0);
+    return this.courseRepository.update(id, updateCourseDto).then((result: UpdateResult) => result.affected > 0);
   }
 
   /**
@@ -68,9 +64,7 @@ export class CourseService {
    * @returns {Promise<boolean>} - Resultado de la eliminación
    */
   remove(id: number): Promise<boolean> {
-    return this.courseRepository
-      .delete(id)
-      .then((result: UpdateResult) => result.affected > 0);
+    return this.courseRepository.delete(id).then((result: UpdateResult) => result.affected > 0);
   }
 
   /**
@@ -87,11 +81,11 @@ export class CourseService {
    * @returns {Promise<TeacherCourse[]>} - Cursos encontrados
    */
   findTeacherCourses(
-    where?: FindOptionsWhere<TeacherCourse> | FindOptionsWhere<TeacherCourse>[],
+    where?: FindOptionsWhere<TeacherCourse> | FindOptionsWhere<TeacherCourse>[]
   ): Promise<TeacherCourse[]> {
     return this.teacherCourseRepository.find({
       where,
-      relations: ['course', 'teacher', 'students'],
+      relations: ['course', 'teacher', 'students']
     });
   }
 }
