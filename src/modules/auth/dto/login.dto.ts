@@ -12,6 +12,7 @@ export class LoginDto extends PickType(User, ['email', 'password']) {}
 export class LoginResponseDto {
   user: User;
   token: string;
+  refresh: string;
 }
 
 /**
@@ -20,4 +21,11 @@ export class LoginResponseDto {
 export class AuthTokenPayload {
   id: number;
   email: string;
+}
+
+/**
+ *
+ */
+export class AuthRefreshTokenPayload extends AuthTokenPayload {
+  expiration?: number;
 }

@@ -16,10 +16,11 @@ export class AuthInterceptor implements NestInterceptor {
    */
   intercept(context: ExecutionContext, next: CallHandler<LoginResponseDto>): Observable<User> {
     return next.handle().pipe(
-      map(({ user, token }) => {
+      map(({ user, token, refresh }) => {
         const response = context.switchToHttp().getResponse();
         if (token) {
           response.cookie('token', token, {});
+          response.cookie('refresh', refresh, {});
         }
         return user;
       })
