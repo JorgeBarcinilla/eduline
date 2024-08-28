@@ -1,4 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
@@ -10,7 +11,7 @@ import { File } from './entities/file.entity';
 @Injectable()
 export class FileService {
   constructor(
-    @Inject(File)
+    @InjectRepository(File)
     private fileRepository: Repository<File>
   ) {}
 

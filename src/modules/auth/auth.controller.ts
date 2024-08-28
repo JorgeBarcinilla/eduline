@@ -9,6 +9,7 @@ import {
   UseInterceptors
 } from '@nestjs/common';
 import { Request as ExpressRequest } from 'express';
+import { JwtRefreshGuard } from 'src/guards/jwt-refresh.guard';
 import { LocalAuthGuard } from 'src/guards/local-auth.guard';
 import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 import { CreateUserDto } from '../user/dto/create-user.dto';
@@ -54,6 +55,8 @@ export class AuthController {
    * @returns {Promise<Omit<LoginResponseDto, "user">>} - Tokens refrescados
    */
   @Post('refresh-token')
+  @UseGuards(JwtRefreshGuard)
+  @UseInterceptors(AuthInterceptor)
   refreshTokens(@Request() req: ExpressRequest): Promise<Omit<LoginResponseDto, 'user'>> {
     if (!req['user']) {
       throw new UnauthorizedException();

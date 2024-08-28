@@ -75,7 +75,7 @@ export class AuthService {
     const refreshPayload: AuthRefreshTokenPayload = { id: user.id, email: user.email };
     const newRefreshToken = this.jwtService.sign(refreshPayload, { secret: JwtConstants.refresh, expiresIn: '30d' });
 
-    if (currentRefreshToken && currentRefreshTokenExpiresAt) {
+    if (currentRefreshToken) {
       if (await this.isRefreshTokenBlackListed(currentRefreshToken, user.id)) {
         throw new UnauthorizedException('Invalid refresh token.');
       }
