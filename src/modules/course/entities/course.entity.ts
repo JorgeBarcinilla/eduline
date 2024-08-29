@@ -31,5 +31,5 @@ export class Course {
   createdday: Date;
 
   @UpdateDateColumn()
-  updateday: Date;
+  updatedday: Date;
 }

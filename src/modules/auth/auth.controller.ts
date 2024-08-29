@@ -3,12 +3,12 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Post,
-  Request,
+  Req,
   UnauthorizedException,
   UseGuards,
   UseInterceptors
 } from '@nestjs/common';
-import { Request as ExpressRequest } from 'express';
+import { Request } from 'express';
 import { JwtRefreshGuard } from 'src/guards/jwt-refresh.guard';
 import { LocalAuthGuard } from 'src/guards/local-auth.guard';
 import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
@@ -33,8 +33,8 @@ export class AuthController {
   @UseInterceptors(ClassSerializerInterceptor)
   @UseInterceptors(AuthInterceptor)
   @UseGuards(LocalAuthGuard)
-  login(@Request() request): Promise<LoginResponseDto> {
-    return this.authService.login(request.user);
+  login(@Req() request: Request): Promise<LoginResponseDto> {
+    return this.authService.login(request.user as User);
   }
 
   /**
@@ -51,13 +51,13 @@ export class AuthController {
 
   /**
    * Endpoint para refrescar los tokens
-   * @param {ExpressRequest} req - Petición del usuario
+   * @param {Request} req - Petición del usuario
    * @returns {Promise<Omit<LoginResponseDto, "user">>} - Tokens refrescados
    */
   @Post('refresh-token')
   @UseGuards(JwtRefreshGuard)
   @UseInterceptors(AuthInterceptor)
-  refreshTokens(@Request() req: ExpressRequest): Promise<Omit<LoginResponseDto, 'user'>> {
+  refreshTokens(@Req() req: Request): Promise<Omit<LoginResponseDto, 'user'>> {
     if (!req['user']) {
       throw new UnauthorizedException();
     }
