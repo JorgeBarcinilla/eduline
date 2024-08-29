@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtConstants } from 'src/common/constants/jwt-secret';
-import { AuthTokenPayload } from '../dto/login.dto';
+import { AuthTokenPayload, AuthTokenPayloadValidate } from '../dto/login.dto';
 
 /**
  *
@@ -33,9 +33,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   /**
    * Metodo para validar un token
    * @param {AuthTokenPayload} payload - Payload del token
-   * @returns {Promise<any>} - Datos del usuario
+   * @returns {Promise<AuthTokenPayloadValidate>} - Datos del usuario
    */
-  async validate(payload: AuthTokenPayload) {
-    return { userId: payload.id, username: payload.email };
+  async validate(payload: AuthTokenPayload): Promise<AuthTokenPayloadValidate> {
+    return { info: { id: payload.id, email: payload.email } };
   }
 }

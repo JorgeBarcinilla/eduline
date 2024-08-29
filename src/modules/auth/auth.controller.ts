@@ -58,9 +58,24 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @UseInterceptors(AuthInterceptor)
   refreshTokens(@Req() req: Request): Promise<Omit<LoginResponseDto, 'user'>> {
-    if (!req['user']) {
+    if (!req.user) {
       throw new UnauthorizedException();
     }
-    return this.authService.generateTokenPair(req['user'] as User, req.cookies['refresh']);
+    return this.authService.generateTokenPair(
+      req.user['info'],
+      req.cookies['refresh'],
+      new Date(req.user['expiration'])
+    );
+  }
+
+  /**
+   *
+   * @param {Request} req - Petición del usuario
+   */
+  @Post('logout')
+  logout(@Req() req: Request): void {
+    req.res.clearCookie('token');
+    req.res.clearCookie('refresh');
+    return;
   }
 }

@@ -3,15 +3,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtConstants } from 'src/common/constants/jwt-secret';
-import { UserService } from 'src/modules/user/user.service';
-import { AuthTokenPayload } from '../dto/login.dto';
+import { AuthTokenPayload, AuthTokenPayloadValidate } from '../dto/login.dto';
 
 /**
  *
  */
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
-  constructor(private userService: UserService) {
+  constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         JwtRefreshStrategy.extractJWT,
@@ -37,9 +36,9 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
   /**
    * Metodo que valida el token
    * @param {AuthTokenPayload} payload - Payload del token
-   * @returns {Promise<any>} - Datos del usuario
+   * @returns {Promise<AuthTokenPayloadValidate>} - Datos del usuario
    */
-  async validate(payload: AuthTokenPayload) {
-    return { userId: payload.id, username: payload.email };
+  async validate(payload: AuthTokenPayload): Promise<AuthTokenPayloadValidate> {
+    return { info: { id: payload.id, email: payload.email }, expiration: new Date(payload.exp * 1000) };
   }
 }

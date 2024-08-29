@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
-import { AuthRefreshTokenPayload, LoginResponseDto } from './dto/login.dto';
+import { AuthTokenPayload, AuthTokenPayloadValidateInfo, LoginResponseDto } from './dto/login.dto';
 import { AuthRefreshToken } from './entities/authRefreshToken.entity';
 
 /**
@@ -28,7 +28,7 @@ export class AuthService {
    * @returns {Promise<LoginResponseDto>} - Datos y token del usuario
    */
   async login(user: User): Promise<LoginResponseDto> {
-    const token = await this.generateTokenPair(user);
+    const token = await this.generateTokenPair({ id: user.id, email: user.email });
     return { user, ...token };
   }
 
@@ -62,28 +62,28 @@ export class AuthService {
 
   /**
    * Metodo para generar un nuevo token de refresco
-   * @param {User} user - Id del usuario
+   * @param {AuthTokenPayloadValidateInfo} userInfo - Id del usuario
    * @param {string} currentRefreshToken - Token de refresco actual
    * @param {[Date]} currentRefreshTokenExpiresAt - Fecha de expiración del token de refresco actual
    * @returns {Promise<string>} - Nuevo token de refresco
    */
   async generateRefreshToken(
-    user: User,
+    userInfo: AuthTokenPayloadValidateInfo,
     currentRefreshToken?: string,
     currentRefreshTokenExpiresAt?: Date
   ): Promise<string> {
-    const refreshPayload: AuthRefreshTokenPayload = { id: user.id, email: user.email };
+    const refreshPayload: AuthTokenPayload = { id: userInfo.id, email: userInfo.email };
     const newRefreshToken = this.jwtService.sign(refreshPayload, { secret: JwtConstants.refresh, expiresIn: '30d' });
 
     if (currentRefreshToken && currentRefreshTokenExpiresAt) {
-      if (await this.isRefreshTokenBlackListed(currentRefreshToken, user.id)) {
+      if (await this.isRefreshTokenBlackListed(currentRefreshToken, userInfo.id)) {
         throw new UnauthorizedException('Invalid refresh token.');
       }
 
       await this.authRefreshTokenRepository.insert({
         token: currentRefreshToken,
         expiration: currentRefreshTokenExpiresAt,
-        userId: user.id
+        userId: userInfo.id
       });
     }
 
@@ -102,20 +102,20 @@ export class AuthService {
 
   /**
    * Metodo para generar un par de tokens
-   * @param {User} user - Datos del usuario
+   * @param {AuthTokenPayloadValidateInfo} userInfo - Datos del usuario
    * @param {string} currentRefreshToken - Token de refresco actual
    * @param {string} currentRefreshTokenExpiresAt - Fecha de expiración del token de refresco actual
    * @returns {Promise<{ token: string; refresh: string }>} - Par de tokens
    */
   async generateTokenPair(
-    user: User,
+    userInfo: AuthTokenPayloadValidateInfo,
     currentRefreshToken?: string,
     currentRefreshTokenExpiresAt?: Date
   ): Promise<Omit<LoginResponseDto, 'user'>> {
-    const payload = { email: user.email, sub: user.id };
+    const payload: AuthTokenPayload = { id: userInfo.id, email: userInfo.email };
     return {
       token: this.jwtService.sign(payload),
-      refresh: await this.generateRefreshToken(user, currentRefreshToken, currentRefreshTokenExpiresAt)
+      refresh: await this.generateRefreshToken(userInfo, currentRefreshToken, currentRefreshTokenExpiresAt)
     };
   }
 

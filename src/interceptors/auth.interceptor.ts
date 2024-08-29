@@ -19,8 +19,8 @@ export class AuthInterceptor implements NestInterceptor {
       map(({ user, token, refresh }) => {
         const response = context.switchToHttp().getResponse();
         if (token) {
-          response.cookie('token', token, {});
-          response.cookie('refresh', refresh, {});
+          response.cookie('token', token, { httpOnly: true });
+          response.cookie('refresh', refresh, { httpOnly: true });
         }
         return user;
       })
