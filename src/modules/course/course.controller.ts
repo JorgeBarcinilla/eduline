@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { User } from '../user/entities/user.entity';
+import { AuthTokenPayloadValidateInfo } from '../auth/dto/login.dto';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
@@ -51,10 +52,10 @@ export class CourseController {
    */
   @Get('getMyCourses')
   @UseGuards(JwtAuthGuard)
-  getMyCourses(@Request() request: Request): Promise<TeacherCourse[]> {
-    const user = request['user'] as User;
+  getMyCourses(@Req() request: Request): Promise<TeacherCourse[]> {
+    const info = request.user['info'] as AuthTokenPayloadValidateInfo;
     return this.courseService.findTeacherCourses({
-      students: { id: user.id }
+      students: { id: info.id }
     });
   }
 

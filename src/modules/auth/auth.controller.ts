@@ -61,11 +61,7 @@ export class AuthController {
     if (!req.user) {
       throw new UnauthorizedException();
     }
-    return this.authService.generateTokenPair(
-      req.user['info'],
-      req.cookies['refresh'],
-      new Date(req.user['expiration'])
-    );
+    return this.authService.generateTokenPair(req.user['info'], req.cookies['refresh'], req.user['expiration']);
   }
 
   /**

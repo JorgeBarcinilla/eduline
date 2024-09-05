@@ -1,13 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CommonEntity } from 'src/common/entity/common.entity';
+import { Column, Entity } from 'typeorm';
 
 /**
  *
  */
 @Entity()
-export class AuthRefreshToken {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class AuthRefreshToken extends CommonEntity {
   @Column()
   token: string;
 
